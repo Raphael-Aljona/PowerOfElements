@@ -1,6 +1,8 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -15,8 +17,10 @@ public class PlayerController : MonoBehaviour
 
     public bool invensibility = false;
 
-    public int maxHealth = 3;
-    public int currentHealth;
+    public float maxHealth = 3;
+    public float currentHealth;
+    public Scrollbar ScrollHealthBar;
+    public bool isDead = false;
 
     //public GameObject SpeedEffect;
     //public GameObject JumpEffect;
@@ -112,7 +116,37 @@ public class PlayerController : MonoBehaviour
         Vector3 finalMove = new Vector3(moveXZ.x, yVelocity, moveXZ.z);
         controller.Move(finalMove * Time.deltaTime);
 
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            TakeDamage(1);
+        }
+
+        if (currentHealth <= 0)
+        {
+            isDead = true;
+        }
+
        
+        if (isDead)
+        {
+            SceneManager.LoadScene("DeathScene");
+
+            Debug.Log("MORREU");
+        }
+
     }
 
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        AtualizeHealthBar();
+
+    }
+
+    public void AtualizeHealthBar()
+    {
+        ScrollHealthBar.size = currentHealth / maxHealth;
+    }
 }
+
