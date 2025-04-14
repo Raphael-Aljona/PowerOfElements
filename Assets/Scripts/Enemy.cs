@@ -8,11 +8,18 @@ public class Enemy : MonoBehaviour
     public float attackCooldown = 2f; // Tempo entre ataques
     private float attackTimer = 0f;
 
+    public float currentHealth;
+    public float maxHealth = 10f;
+
+    private bool isDead = false;
+
     private NavMeshAgent agent;
     public PlayerController playerController;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+
+        currentHealth = maxHealth;
 
         if (player == null)
         {
@@ -48,6 +55,16 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+
+        if (currentHealth <= 0)
+        {
+            isDead = true;
+        }
+
+        if (isDead)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Attack()
@@ -61,5 +78,11 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogWarning("playerController está nulo!");
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
     }
 }

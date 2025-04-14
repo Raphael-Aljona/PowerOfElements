@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Security.Cryptography.X509Certificates;
+using TMPro;
 using UnityEngine;
 
 public class PowerUpManager : MonoBehaviour
@@ -9,14 +10,11 @@ public class PowerUpManager : MonoBehaviour
     private PowerUpSpeed powerUpSpeed;
     private PowerUpInvensibility powerUpInvensibility;
 
-    private int powerUpDuration = 30;
     private int invenbilityDuration = 10;
 
     public float jumpForceUpgrade;
-    public float jumpForceNormal;
 
     public float speedUpgrade;
-    public float speedNormal;
 
     public bool invensibilityUpgrade;
     public bool invenbilityNormal;
@@ -37,38 +35,15 @@ public class PowerUpManager : MonoBehaviour
 
     public void ActivateJump()
     {
-        StartCoroutine(PowerUpJumpRoutine());
-    }
-
-    private IEnumerator PowerUpJumpRoutine()
-    {
         Debug.Log("Power Up Pulo Ativado");
 
         playerController.jumpForce = jumpForceUpgrade;
-
-        yield return new WaitForSeconds(powerUpDuration);
-
-        playerController.jumpForce = jumpForceNormal;
-
-        Debug.Log("CABO O KANGURU");
     }
-
     public void ActivateSpeed()
-    {
-        StartCoroutine(PowerUpSpeedRoutine());
-    }
-
-    private IEnumerator PowerUpSpeedRoutine()
     {
         Debug.Log("Power Up Speed Pego");
 
         playerController.speed = speedUpgrade;
-
-        yield return new WaitForSeconds(powerUpDuration);
-
-        playerController.speed = speedNormal;
-
-        Debug.Log("CABO FLASH");
     }
 
     public void ActivateInvensibility()
@@ -90,3 +65,30 @@ public class PowerUpManager : MonoBehaviour
     }
 
 }
+
+
+//using UnityEngine;
+//using UnityEngine.UI;
+//using TMPro; // Use isso se estiver usando TextMeshPro
+
+//public class CrystalManager : MonoBehaviour
+//{
+//    public int totalCrystals = 0;
+//    public TextMeshProUGUI crystalText; // Use Text se for UI normal
+
+//    void Start()
+//    {
+//        UpdateCrystalUI();
+//    }
+
+//    public void AddCrystal()
+//    {
+//        totalCrystals++;
+//        UpdateCrystalUI();
+//    }
+
+//    void UpdateCrystalUI()
+//    {
+//        crystalText.text = "Cristais: " + totalCrystals;
+//    }
+//}

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    // Publicos & Váriaveis
+    // Publicos
 
     public float speed = 5f;
     public float sensitivity = 2f;
@@ -22,24 +22,18 @@ public class PlayerController : MonoBehaviour
     public Scrollbar ScrollHealthBar;
     public bool isDead = false;
 
-    //public GameObject SpeedEffect;
-    //public GameObject JumpEffect;
-    //public GameObject HealthEffect;
+    public GameObject fireball;
+    public Transform fireTarget;
+    public float fireBallRate = 1f;
+    private float fireTimer;
 
-    // Privados & Váriaveis
+    // Privados 
 
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundMask;
 
-    //private int SpeedLayer = 9;
-    //private int HealthLayer = 10;
-    //private int JumpLayer = 11;
-
     private float originalSpeed;
     private float originalJumpForce;
-
-    //private Coroutine speedRoutine;
-    //private Coroutine jumpRoutine;
 
     private CharacterController controller;
     private Transform myCamera;
@@ -134,19 +128,42 @@ public class PlayerController : MonoBehaviour
             Debug.Log("MORREU");
         }
 
+        // Ataque do Player -> Bola de Fogo
+
+        //Define o tempo inicial até o player puder atirar
+        fireTimer += Time.deltaTime;
+
+        // Se botao esquerdo foi apertado e o fireTimer é maior que o fireballrate
+        if (Input.GetMouseButtonDown(0) && fireTimer >= fireBallRate)
+        {
+            Fire();
+
+            //Reseta o tempo
+            fireTimer = 0f;
+        }
+
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        AtualizeHealthBar();
+        if (!isDead && !invensibility)
+        {
+            currentHealth -= damage;
+            currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+            AtualizeHealthBar();
+        }
+       
 
     }
 
     public void AtualizeHealthBar()
     {
         ScrollHealthBar.size = currentHealth / maxHealth;
+    }
+
+    void Fire()
+    {
+        Instantiate(fireball, fireTarget.position, fireTarget.rotation);
     }
 }
 
