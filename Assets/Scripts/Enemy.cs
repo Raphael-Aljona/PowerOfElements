@@ -15,6 +15,10 @@ public class Enemy : MonoBehaviour
 
     private NavMeshAgent agent;
     public PlayerController playerController;
+
+    // Efeito de fumaça
+    public GameObject attackSmokeEffect;
+    public Transform smokeSpawnPoint;
     void Start()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -72,12 +76,20 @@ public class Enemy : MonoBehaviour
         if (playerController != null)
         {
             playerController.TakeDamage(1);
+            playerController.Knockback(transform.position, 50f);
             Debug.Log("Inimigo atacou!");
+
+            //Efeito de fumaça
+            if (attackSmokeEffect != null)
+            {
+                Instantiate(attackSmokeEffect, smokeSpawnPoint != null ? smokeSpawnPoint.position : transform.position, Quaternion.identity);
+            }
         }
         else
         {
             Debug.LogWarning("playerController está nulo!");
         }
+
     }
 
     public void TakeDamage(float damage)

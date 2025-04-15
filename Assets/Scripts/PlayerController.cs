@@ -165,5 +165,29 @@ public class PlayerController : MonoBehaviour
     {
         Instantiate(fireball, fireTarget.position, fireTarget.rotation);
     }
+
+    // Adiciona um knockback ao player
+    public void Knockback(Vector3 sourcePosition, float force)
+    {
+        StopCoroutine("ApplyKnockback"); // caso esteja levando outro empurrão
+        StartCoroutine(ApplyKnockback(sourcePosition, force, 0.2f)); // 0.2 segundos de empurrão
+    }
+
+    IEnumerator ApplyKnockback(Vector3 sourcePosition, float force, float duration)
+    {
+        Vector3 direction = (transform.position - sourcePosition).normalized;
+        direction.y = 0;
+
+        float timer = 0f;
+
+        while (timer < duration)
+        {
+            Vector3 knockback = direction * force;
+            controller.Move(knockback * Time.deltaTime);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+    }
 }
 
