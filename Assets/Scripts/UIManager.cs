@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -25,7 +27,12 @@ public class UIManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (totalCrystals >= 5)
+        {
+            SceneManager.LoadScene("Victory");
+
+            Debug.Log("ganhou!!");
+        }
     }
     
     public void UpdatePlayerHealthBar(int amount)

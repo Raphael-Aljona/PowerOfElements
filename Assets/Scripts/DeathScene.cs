@@ -23,4 +23,8 @@ public class DeathScene : MonoBehaviour
         SceneManager.LoadScene("PowerOfElements");
 
     }
+
+    public void JogarDeNovo2() {
+        SceneManager.LoadScene("PowerOfElements");
+    }
 }

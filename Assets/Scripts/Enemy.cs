@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,6 +15,7 @@ public class Enemy : MonoBehaviour
     private bool isDead = false;
 
     private NavMeshAgent agent;
+    private Animator animator;
     public PlayerController playerController;
 
     // Efeito de fumaça
@@ -21,6 +23,7 @@ public class Enemy : MonoBehaviour
     public Transform smokeSpawnPoint;
     void Start()
     {
+        animator = GetComponent<Animator>();
         agent = GetComponent<NavMeshAgent>();
 
         currentHealth = maxHealth;
@@ -38,10 +41,10 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+
+        float distance = Vector3.Distance(transform.position, player.position);
         if (player != null)
         {
-            float distance = Vector3.Distance(transform.position, player.position);
-
             if (distance > stopDistance)
             {
                 agent.SetDestination(player.position);
@@ -60,6 +63,13 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        if (distance >= stopDistance)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(player.position);
+            animator.SetBool("isWalking", true);
+        }
+
         if (currentHealth <= 0)
         {
             isDead = true;
@@ -67,8 +77,11 @@ public class Enemy : MonoBehaviour
 
         if (isDead)
         {
+            animator.SetTrigger("Death");
             Destroy(gameObject);
         }
+
+
     }
 
     void Attack()
@@ -77,6 +90,7 @@ public class Enemy : MonoBehaviour
         {
             playerController.TakeDamage(1);
             playerController.Knockback(transform.position, 50f);
+            animator.SetTrigger("Attack");
             Debug.Log("Inimigo atacou!");
 
             //Efeito de fumaça

@@ -65,30 +65,3 @@ public class PowerUpManager : MonoBehaviour
     }
 
 }
-
-
-//using UnityEngine;
-//using UnityEngine.UI;
-//using TMPro; // Use isso se estiver usando TextMeshPro
-
-//public class CrystalManager : MonoBehaviour
-//{
-//    public int totalCrystals = 0;
-//    public TextMeshProUGUI crystalText; // Use Text se for UI normal
-
-//    void Start()
-//    {
-//        UpdateCrystalUI();
-//    }
-
-//    public void AddCrystal()
-//    {
-//        totalCrystals++;
-//        UpdateCrystalUI();
-//    }
-
-//    void UpdateCrystalUI()
-//    {
-//        crystalText.text = "Cristais: " + totalCrystals;
-//    }
-//}
