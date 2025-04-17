@@ -12,6 +12,7 @@ public class UIManager : MonoBehaviour
 
     public int totalCrystals = 0;
     public TextMeshProUGUI crystalText; // Use Text se for UI normal
+    public BlockedWay blockedWay;
 
     void Start()
     {
@@ -32,6 +33,11 @@ public class UIManager : MonoBehaviour
             SceneManager.LoadScene("Victory");
 
             Debug.Log("ganhou!!");
+        }
+
+        if (totalCrystals == 4)
+        {
+            blockedWay.LiberarCaminho();
         }
     }
     
